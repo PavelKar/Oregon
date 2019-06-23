@@ -1,4 +1,16 @@
 #include <Arduino.h>
+#include <TimeLib.h>
+#define TIME_HEADER  "T"   // тег заголовка для сообщений 
+// с информацией о синхронизации времени,
+// приходящих по последовательному порту.
+
+#define TIME_REQUEST  7    // ASCII-символ для запроса сообщений 
+// с информацией о синхронизации времени
+
+ 
+
+
+
 class DecodeOOK {
 protected:
     byte total_bits, bits, flip, state, pos, data[25];
@@ -140,26 +152,26 @@ virtual char decode(word width)
                   } 
                   else 
                   {
-                     // Reset decoder
+                     // Сброс декодера
                      return -1;
                   }
                   break;
                case OK:
                   if (w == 0) 
                   {
-                     // Short pulse
+                     // короткий импульс
                      state = T0;
                   }
                   else 
                   {
-                     // Long pulse
+                     // длинный импульс
                      manchester(1);
                   }
                   break;
                case T0:
                   if (w == 0) 
                   {
-                     // Second short pulse
+                     // второй коротуий импульс
                      manchester(0);
                   } 
                   else 
@@ -269,9 +281,9 @@ void reportSerial (const char* s, class DecodeOOK& decoder) {
       // Поискали сенсор, если не нашли до регистрируем его
       
       if (currentSensor == 255) {
-           Serial.print("New sensor detected with ID: ");
+           Serial.print("Обнаружен новый сенсор с ID: ");
            Serial.println(sensID,HEX);
-           Serial.print("Adding to system with Index: ");
+           Serial.print("Добавлен в систему с индексом: ");
            Serial.println(lastRegisteredSensor);
         }
 
@@ -281,7 +293,7 @@ void reportSerial (const char* s, class DecodeOOK& decoder) {
         }
         else {
          
-            Serial.println("too many sensors. will not add this");        
+            Serial.println("слишком много сенсоров, этот не будет добавлен");        
             return;
         }
          
@@ -365,16 +377,16 @@ void reportSensorTHSerial(byte sensorNum) {
       Serial.println("wet");
       break;
     case 255:
-      Serial.println("NO DATA");
+      Serial.println("НЕТ ДАННЫХ");
       break;
       
   }
  
   if (sensorBatteryStatus[sensorNum] == 0) {        
-    Serial.print("   Battery level is good /");
+    Serial.print("   Хороший уровень батареи / статус:");
     Serial.println(sensorBatteryStatus[sensorNum]);
   } else {
-    Serial.println("   Battery level is low /");
+    Serial.println("   Низкий уровень батареи / статус:");
     Serial.println(sensorBatteryStatus[sensorNum]);
   }
 }
@@ -385,12 +397,12 @@ void sendDataSerial() {
  // Serial.println("=========================================");
           for (byte i = 0; i < maxSensors; ++i) {
           if ((sensorID[i] != 0) && (sensorDataUpdated[i] == 1)) {
-            Serial.print("Sensor ID: ");
+            Serial.print("ID сенсора: ");
             Serial.println(sensorID[i],HEX);
-            Serial.print("   Sensor channel: ");
+            Serial.print("   Канал сенсора: ");
             Serial.println(sensorChannel[i],HEX);
          
-            Serial.print("   Sensor type: ");
+            Serial.print("   Тип сенсора: ");
           // Запуск специфичных для типа сенсора функций вывода данных
             switch (sensorType[i]) {
               case 0x1A2D:
@@ -402,7 +414,7 @@ void sendDataSerial() {
                 reportSensorTHSerial(i);
                 break;
               default:
-                Serial.println("Sensor is off-line");
+                Serial.println("Сенсор не подключен");
             }
           }
           sensorDataUpdated[i] = 1;
