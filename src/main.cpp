@@ -1,15 +1,4 @@
 #include <Arduino.h>
-#include <TimeLib.h>
-#define TIME_HEADER  "T"   // тег заголовка для сообщений 
-// с информацией о синхронизации времени,
-// приходящих по последовательному порту.
-
-#define TIME_REQUEST  7    // ASCII-символ для запроса сообщений 
-// с информацией о синхронизации времени
-
- 
-
-
 
 class DecodeOOK {
 protected:
