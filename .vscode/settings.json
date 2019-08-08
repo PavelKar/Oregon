@@ -3,5 +3,8 @@
     "terminal.integrated.env.linux": {
         "PATH": "/home/paulallen/.platformio/penv/bin:/home/paulallen/.platformio/penv:/home/paulallen/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/home/paulallen/.platformio/penv/bin",
         "PLATFORMIO_CALLER": "vscode"
-    }
+    },
+    "cSpell.words": [
+        "platformio"
+    ]
 }
